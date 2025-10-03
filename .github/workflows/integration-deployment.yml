@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI and CD
 
 on:
   workflow_dispatch:
@@ -42,3 +42,9 @@ jobs:
           cd frontend
           npm run build
 
+  deploy-vercel:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy to vercel
+        run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
