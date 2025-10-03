@@ -1,8 +1,8 @@
 name: CI and CD
 
-env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+#env:
+#      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+#      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
   workflow_dispatch:
@@ -41,21 +41,21 @@ jobs:
           npm install
           npm run test
 
-  deploy-vercel:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v4
+  #deploy-vercel:
+  #  needs: test
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: checkout repository
+  #      uses: actions/checkout@v4
 
-      - name: install vercel CLI
-        run: npm install --global vercel@latest
+  #    - name: install vercel CLI
+  #      run: npm install --global vercel@latest
       
-      - name: pull vercel environment information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+  #    - name: pull vercel environment information
+  #      run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       
-      - name: build project artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+  #    - name: build project artifacts
+  #      run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       
-      - name: deploy project artifacts to vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+  #    - name: deploy project artifacts to vercel
+  #      run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
