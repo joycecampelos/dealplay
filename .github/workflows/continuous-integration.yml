@@ -1,0 +1,44 @@
+name: Node.js CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+    
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      
+      - name: tests - backend
+        run: |
+          cd backend
+          npm install
+          npm run test
+      
+      - name: tests - frontend
+        run: |
+          cd frontend
+          npm install
+          npm run test
+      
+      - name: build - frontend
+        run: |
+          cd frontend
+          npm run build
+
