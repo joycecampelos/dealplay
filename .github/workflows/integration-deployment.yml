@@ -1,4 +1,4 @@
-name: Node.js CI and CD
+name: CI and CD
 
 env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
-        
+
       - name: install vercel CLI
         run: npm install --global vercel@latest
       
