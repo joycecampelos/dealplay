@@ -41,8 +41,22 @@ jobs:
           npm install
           npm run test
 
+  deploy-render:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: deploy backend to render
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.MY_RENDER_API_KEY }}
+          wait-for-success: true
+  
   #deploy-vercel:
-  #  needs: test
+  #  needs: deploy-render
   #  runs-on: ubuntu-latest
   #  steps:
   #    - name: checkout repository
