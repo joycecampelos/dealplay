@@ -45,6 +45,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+        
       - name: install vercel CLI
         run: npm install --global vercel@latest
       
