@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "O backend da aplicação web DealPlay.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joycecampelos/dealplay/backend"
+  },
+  "keywords": [
+    "jogos digitais",
+    "biblioteca",
+    "backend",
+    "api"
+  ],
+  "author": "Joyce Campelo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
