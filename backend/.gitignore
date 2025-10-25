@@ -30,9 +30,11 @@ build/
 .env
 .env.local
 .env.*.local
+.env.test
 
 # Outros
 *.pid
 *.seed
 *.tgz
 .vercel
+coverage
