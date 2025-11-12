@@ -1,0 +1,45 @@
+name: CI and CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+    
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      
+      - name: tests - backend
+        env:
+          BCRYPT_SALT_ROUNDS: ${{ secrets.BACKEND_BCRYPT_SALT_ROUNDS }}
+          SUPABASE_URL: ${{ secrets.BACKEND_SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.BACKEND_SUPABASE_KEY }}
+          JWT_SECRET: ${{ secrets.BACKEND_JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.BACKEND_JWT_EXPIRES_IN }}
+          ITAD_BASE_URL: ${{ secrets.BACKEND_ITAD_BASE_URL }}
+          ITAD_API_KEY: ${{ secrets.BACKEND_ITAD_API_KEY }}
+          IGDB_BASE_URL_AUTH: ${{ secrets.BACKEND_IGDB_BASE_URL_AUTH }}
+          IGDB_BASE_URL_API: ${{ secrets.BACKEND_IGDB_BASE_URL_API }}
+          IGDB_CLIENT_ID: ${{ secrets.BACKEND_IGDB_CLIENT_ID }}
+          IGDB_CLIENT_SECRET: ${{ secrets.BACKEND_IGDB_CLIENT_SECRET }}
+          DEEPL_API_KEY: ${{ secrets.BACKEND_DEEPL_API_KEY }}
+        run: |
+          cd backend
+          npm install
+          npm run test
