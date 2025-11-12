@@ -1,15 +1,44 @@
 import fs from "fs";
 import path from "path";
 import winston from "winston";
+import dotenv from "dotenv";
 
-const logDir = path.resolve("logs");
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir);
+dotenv.config();
+
+function getLogDir() {
+  if (process.env.VERCEL || process.env.AWS_REGION) {
+    return "/tmp/logs";
+  }
+  return path.resolve("logs");
+}
+
+const logDir = getLogDir();
+
+try {
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+  }
+} catch (err) {
+  if (err.code === "EROFS") {
+    console.warn("Logs em disco desativados (sistema somente leitura). Usando apenas console.");
+  } else {
+    console.error("Erro ao criar diretório de logs:", err);
+  }
 }
 
 const transports = [];
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
+  transports.push(
+    new winston.transports.Console({
+      level: "info",
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json()
+      ),
+    })
+  );
+} else {
   transports.push(
     new winston.transports.File({
       filename: path.join(logDir, "error.log"),
@@ -29,12 +58,6 @@ if (process.env.NODE_ENV !== "production") {
         winston.format.colorize(),
         winston.format.simple()
       ),
-    })
-  );
-} else {
-  transports.push(
-    new winston.transports.Console({
-      level: "info",
     })
   );
 }
