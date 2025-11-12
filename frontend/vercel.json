@@ -11,12 +11,6 @@
       "VITE_API_URL": "https://dealplay-backend.vercel.app"
     }
   },
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
   "framework": "vite",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
