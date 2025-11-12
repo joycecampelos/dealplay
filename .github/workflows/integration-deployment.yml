@@ -21,7 +21,7 @@ jobs:
           node-version: 22.x
           cache: "npm"
       
-      - name: tests - backend
+      - name: Install and test backend
         working-directory: ./backend
         env:
           BCRYPT_SALT_ROUNDS: ${{ secrets.BACKEND_BCRYPT_SALT_ROUNDS }}
@@ -37,14 +37,21 @@ jobs:
           IGDB_CLIENT_SECRET: ${{ secrets.BACKEND_IGDB_CLIENT_SECRET }}
           DEEPL_API_KEY: ${{ secrets.BACKEND_DEEPL_API_KEY }}
         run: |
-          npm install
-          npm run test
-          npm run start
+          npm ci
+          npm test
         
-      - name: start - backend
-        run: npx wait-on http://localhost:3000
+      - name: Start backend server
+        working-directory: ./backend
+        env:
+          NODE_ENV: test
+          PORT: 3000
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          nohup npm start > backend.log 2>&1 &
+          npx wait-on http://localhost:3000/ || sleep 10
 
-      - name: tests - frontend
+      - name: Run frontend tests
         working-directory: ./frontend
         env:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
@@ -53,9 +60,7 @@ jobs:
           VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
-          cd frontend
-          npm install
-          npm run start
+          npm ci
           npm run test:e2e
   
   deploy-backend-vercel:
