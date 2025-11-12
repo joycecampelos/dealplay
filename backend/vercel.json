@@ -13,8 +13,7 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production",
-    "BCRYPT_SALT_ROUNDS":"@bcrypt-salt-rounds",
+    "BCRYPT_SALT_ROUNDS":"@bcrypt_salt_rounds",
     "SUPABASE_URL":"@supabase-url",
     "SUPABASE_KEY":"@supabase-key",
     "JWT_SECRET":"@jwt-secret",
