@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "dev": "vite --port 5173 --host",
     "start": "vite",
     "test:ui": "npx cypress open",
     "test:e2e": "npx cypress run",
