@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "BCRYPT_SALT_ROUNDS":"@bcrypt-salt-rounds",
+    "SUPABASE_URL":"@supabase-url",
+    "SUPABASE_KEY":"@supabase-key",
+    "JWT_SECRET":"@jwt-secret",
+    "JWT_EXPIRES_IN":"@jwt-expires-in",
+    "ITAD_BASE_URL":"@itad-base-url",
+    "ITAD_API_KEY":"@itad-api-key",
+    "IGDB_BASE_URL_AUTH":"@igdb-base-url-auth",
+    "IGDB_BASE_URL_API":"@igdb-base-url-api",
+    "IGDB_CLIENT_ID":"@igdb-client-id",
+    "IGDB_CLIENT_SECRET":"@igdb-client-secret",
+    "DEEPL_API_KEY":"@deepl-api-key"
+  }
+}

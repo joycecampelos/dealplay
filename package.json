@@ -1,0 +1,23 @@
+{
+  "name": "dealplay",
+  "version": "1.0.0",
+  "description": "Aplicação web DealPlay.",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm install && npm run start",
+    "client": "cd frontend && npm install && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joycecampelos/dealplay"
+  },
+  "keywords": [
+    "jogos digitais",
+    "biblioteca"
+  ],
+  "author": "Joyce Campelo",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
