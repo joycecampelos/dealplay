@@ -45,8 +45,18 @@ jobs:
         env:
           NODE_ENV: test
           PORT: 3000
+          BCRYPT_SALT_ROUNDS: ${{ secrets.BACKEND_BCRYPT_SALT_ROUNDS }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          JWT_SECRET: ${{ secrets.BACKEND_JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.BACKEND_JWT_EXPIRES_IN }}
+          ITAD_BASE_URL: ${{ secrets.BACKEND_ITAD_BASE_URL }}
+          ITAD_API_KEY: ${{ secrets.BACKEND_ITAD_API_KEY }}
+          IGDB_BASE_URL_AUTH: ${{ secrets.BACKEND_IGDB_BASE_URL_AUTH }}
+          IGDB_BASE_URL_API: ${{ secrets.BACKEND_IGDB_BASE_URL_API }}
+          IGDB_CLIENT_ID: ${{ secrets.BACKEND_IGDB_CLIENT_ID }}
+          IGDB_CLIENT_SECRET: ${{ secrets.BACKEND_IGDB_CLIENT_SECRET }}
+          DEEPL_API_KEY: ${{ secrets.BACKEND_DEEPL_API_KEY }}
         run: |
           echo "🚀 Iniciando o backend em background..."
           nohup npm start > backend.log 2>&1 &
