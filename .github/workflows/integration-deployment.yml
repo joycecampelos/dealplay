@@ -43,7 +43,7 @@ jobs:
       - name: Start backend server
         working-directory: ./backend
         env:
-          NODE_ENV: test
+          NODE_ENV: ci
           PORT: 3000
           BCRYPT_SALT_ROUNDS: ${{ secrets.BACKEND_BCRYPT_SALT_ROUNDS }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
