@@ -98,6 +98,7 @@ jobs:
 
           echo "🔍 Últimas 20 linhas do frontend.log:"
           tail -n 20 frontend.log || true
+
           
       - name: Upload Cypress Artifacts (screenshots/videos)
         if: failure() # só envia artefatos se der erro
