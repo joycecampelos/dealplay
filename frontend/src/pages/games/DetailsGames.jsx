@@ -5,7 +5,7 @@ import { ArrowLeft, Plus, Pencil, Trash2, Star } from "lucide-react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import { getGameAllDetailsById } from "../../services/itadService.js";
 import { getGameByIdItad } from "../../services/gameService.js";
-import { getPlayLogsByUserAndGame, deletePlayLog } from "../../services/playLogService.js";
+import { getPlayLogsByUserAndGame, deletePlayLog } from "../../services/playlogService.js";
 import { formatPrice, formatListMapping, formatDate } from "../../utils/formatters.js";
 import PlayLogUserFormLayout from "../../layouts/forms/PlayLogUserFormLayout.jsx";
 import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";

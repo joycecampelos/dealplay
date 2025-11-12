@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-import { getPlayLogs } from "../../services/playLogService.js";
+import { getPlayLogs } from "../../services/playlogService.js";
 import { getBestDeals } from "../../services/itadService.js";
 import { formatPrice } from "../../utils/formatters.js";
 import { Gamepad2, CheckCircle2, FolderPlus, XCircle, Flame, ArrowRight } from "lucide-react";
