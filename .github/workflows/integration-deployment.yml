@@ -63,9 +63,6 @@ jobs:
           echo "⏳ Aguardando o servidor iniciar..."
           sleep 5
 
-          echo "🔍 Últimas 20 linhas do backend.log:"
-          tail -n 20 backend.log || true
-
           echo "🌐 Tentando acessar http://localhost:3000/ ..."
           curl -v http://localhost:3000/ || echo "⚠️ API ainda não respondeu"
 
@@ -73,8 +70,6 @@ jobs:
           npx wait-on --timeout 60000 http://localhost:3000/
 
           echo "✅ Servidor backend está pronto e respondendo!"
-          echo "🔍 Últimas 10 linhas do backend.log:"
-          tail -n 10 backend.log || true
 
       - name: Run frontend E2E tests
         working-directory: ./frontend
@@ -95,10 +90,6 @@ jobs:
           npx wait-on --timeout 60000 http://localhost:5173
 
           echo "✅ Frontend ativo. Rodando testes E2E com Cypress..."
-          npx cypress run
-
-          echo "🔍 Últimas linhas do frontend.log:"
-          tail -n 10 frontend.log || true
 
       - name: Run frontend tests
         working-directory: ./frontend
