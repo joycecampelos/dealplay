@@ -31,8 +31,6 @@ const game = {
 export default defineConfig({
   e2e: {
     baseUrl: "http://localhost:5173",
-    video: false,
-    screenshotOnRunFailure: false,
     supportFile: "cypress/support/e2e.js",
     defaultCommandTimeout: 15000,
     pageLoadTimeout: 90000,
