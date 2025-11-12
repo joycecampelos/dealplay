@@ -21,26 +21,7 @@ jobs:
           node-version: 22.x
           cache: "npm"
       
-      - name: Install and test backend
-        working-directory: ./backend
-        env:
-          BCRYPT_SALT_ROUNDS: ${{ secrets.BACKEND_BCRYPT_SALT_ROUNDS }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-          JWT_SECRET: ${{ secrets.BACKEND_JWT_SECRET }}
-          JWT_EXPIRES_IN: ${{ secrets.BACKEND_JWT_EXPIRES_IN }}
-          ITAD_BASE_URL: ${{ secrets.BACKEND_ITAD_BASE_URL }}
-          ITAD_API_KEY: ${{ secrets.BACKEND_ITAD_API_KEY }}
-          IGDB_BASE_URL_AUTH: ${{ secrets.BACKEND_IGDB_BASE_URL_AUTH }}
-          IGDB_BASE_URL_API: ${{ secrets.BACKEND_IGDB_BASE_URL_API }}
-          IGDB_CLIENT_ID: ${{ secrets.BACKEND_IGDB_CLIENT_ID }}
-          IGDB_CLIENT_SECRET: ${{ secrets.BACKEND_IGDB_CLIENT_SECRET }}
-          DEEPL_API_KEY: ${{ secrets.BACKEND_DEEPL_API_KEY }}
-        run: |
-          npm ci
-#npm test
-        
-      - name: Start backend server
+      - name: Install, test backend and start server
         working-directory: ./backend
         env:
           PORT: 3000
@@ -57,21 +38,15 @@ jobs:
           IGDB_CLIENT_SECRET: ${{ secrets.BACKEND_IGDB_CLIENT_SECRET }}
           DEEPL_API_KEY: ${{ secrets.BACKEND_DEEPL_API_KEY }}
         run: |
-          echo "🚀 Iniciando o backend em background..."
+          npm install
+          npm run test
           nohup npm start > backend.log 2>&1 &
-
-          echo "⏳ Aguardando o servidor iniciar..."
           sleep 5
+          npx wait-on --timeout 30000 http://localhost:3000/
 
-          echo "🌐 Tentando acessar http://localhost:3000/ ..."
-          curl -v http://localhost:3000/ || echo "⚠️ API ainda não respondeu"
+          echo "Servidor backend está pronto."
 
-          echo "⏳ Aguardando resposta com wait-on (timeout 60s)..."
-          npx wait-on --timeout 60000 http://localhost:3000/
-
-          echo "✅ Servidor backend está pronto e respondendo!"
-
-      - name: Run frontend E2E tests
+      - name: Install, start and test frontend
         working-directory: ./frontend
         env:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
@@ -79,35 +54,14 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-          TERM: xterm
         run: |
-          echo "📦 Instalando dependências do frontend..."
-          npm ci
-
-          echo "🚀 Iniciando o servidor do Vite (frontend)..."
+          npm install
           nohup npm run dev -- --port 5173 --host > frontend.log 2>&1 &
+          sleep 5
+          npx wait-on --timeout 30000 http://localhost:5173/
 
-          echo "⏳ Aguardando o Vite responder em http://localhost:5173/login ..."
-          npx wait-on --timeout 90000 http://localhost:5173/login
-
-          echo "🔍 Verificando se o frontend está servindo HTML..."
-          curl -I http://localhost:5173/login || echo "⚠️ Página /login ainda não respondeu"
-
-          echo "✅ Frontend ativo. Rodando testes E2E com Cypress..."
-          npx cypress run --browser electron --headless --config defaultCommandTimeout=15000,pageLoadTimeout=90000
-
-          echo "🔍 Últimas 20 linhas do frontend.log:"
-          tail -n 20 frontend.log || true
-
-          
-      - name: Upload Cypress Artifacts (screenshots/videos)
-        if: failure() # só envia artefatos se der erro
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-artifacts
-          path: |
-            frontend/cypress/screenshots
-            frontend/cypress/videos
+          echo "Frontend ativo. Rodando testes E2E com Cypress."
+          npm run test:e2e
   
   deploy-backend-vercel:
     needs: test
@@ -115,6 +69,28 @@ jobs:
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.BACKEND_VERCEL_PROJECT_ID }}
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: install vercel CLI
+        run: npm install --global vercel@latest
+      
+      - name: pull vercel environment information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      
+      - name: build project artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      
+      - name: deploy project artifacts to vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+  
+  deploy-frontend-vercel:
+    needs: deploy-backend-vercel
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.FRONTEND_VERCEL_PROJECT_ID }}
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
