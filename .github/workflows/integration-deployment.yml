@@ -83,6 +83,7 @@ jobs:
           VITE_URL_CALLBACK_AUTH: ${{ secrets.VITE_URL_CALLBACK_AUTH }}
           VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
           echo "📦 Instalando dependências do frontend..."
           npm ci
