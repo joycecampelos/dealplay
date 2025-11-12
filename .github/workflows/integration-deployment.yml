@@ -24,8 +24,8 @@ jobs:
       - name: tests - backend
         env:
           BCRYPT_SALT_ROUNDS: ${{ secrets.BACKEND_BCRYPT_SALT_ROUNDS }}
-          SUPABASE_URL: ${{ secrets.BACKEND_SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.BACKEND_SUPABASE_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           JWT_SECRET: ${{ secrets.BACKEND_JWT_SECRET }}
           JWT_EXPIRES_IN: ${{ secrets.BACKEND_JWT_EXPIRES_IN }}
           ITAD_BASE_URL: ${{ secrets.BACKEND_ITAD_BASE_URL }}
@@ -39,6 +39,20 @@ jobs:
           cd backend
           npm install
           npm run test
+          npm run start
+
+      - name: tests - frontend
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_URL_CALLBACK_AUTH: ${{ secrets.VITE_URL_CALLBACK_AUTH }}
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          cd frontend
+          npm install
+          npm run start
+          npm run test:e2e
   
   deploy-backend-vercel:
     needs: test
