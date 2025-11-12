@@ -22,6 +22,7 @@ jobs:
           cache: "npm"
       
       - name: tests - backend
+        working-directory: ./backend
         env:
           BCRYPT_SALT_ROUNDS: ${{ secrets.BACKEND_BCRYPT_SALT_ROUNDS }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -36,12 +37,15 @@ jobs:
           IGDB_CLIENT_SECRET: ${{ secrets.BACKEND_IGDB_CLIENT_SECRET }}
           DEEPL_API_KEY: ${{ secrets.BACKEND_DEEPL_API_KEY }}
         run: |
-          cd backend
           npm install
           npm run test
           npm run start
+        
+      - name: start - backend
+        run: npx wait-on http://localhost:3000
 
       - name: tests - frontend
+        working-directory: ./frontend
         env:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
           VITE_URL_CALLBACK_AUTH: ${{ secrets.VITE_URL_CALLBACK_AUTH }}
