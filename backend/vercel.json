@@ -13,17 +13,17 @@
     }
   ],
   "env": {
-    "BCRYPT_SALT_ROUNDS":"@bcrypt_salt_rounds",
-    "SUPABASE_URL":"@supabase-url",
-    "SUPABASE_KEY":"@supabase-key",
-    "JWT_SECRET":"@jwt-secret",
-    "JWT_EXPIRES_IN":"@jwt-expires-in",
-    "ITAD_BASE_URL":"@itad-base-url",
-    "ITAD_API_KEY":"@itad-api-key",
-    "IGDB_BASE_URL_AUTH":"@igdb-base-url-auth",
-    "IGDB_BASE_URL_API":"@igdb-base-url-api",
-    "IGDB_CLIENT_ID":"@igdb-client-id",
-    "IGDB_CLIENT_SECRET":"@igdb-client-secret",
-    "DEEPL_API_KEY":"@deepl-api-key"
+    "BCRYPT_SALT_ROUNDS":"@BCRYPT_SALT_ROUNDS",
+    "SUPABASE_URL":"@SUPABASE_URL",
+    "SUPABASE_KEY":"@SUPABASE_KEY",
+    "JWT_SECRET":"@JWT_SECRET",
+    "JWT_EXPIRES_IN":"@JWT_EXPIRES_IN",
+    "ITAD_BASE_URL":"@ITAD_BASE_URL",
+    "ITAD_API_KEY":"@ITAD_API_KEY",
+    "IGDB_BASE_URL_AUTH":"@IGDB_BASE_URL_AUTH",
+    "IGDB_BASE_URL_API":"@IGDB_BASE_URL_API",
+    "IGDB_CLIENT_ID":"@IGDB_CLIENT_ID",
+    "IGDB_CLIENT_SECRET":"@IGDB_CLIENT_SECRET",
+    "DEEPL_API_KEY":"@DEEPL_API_KEY"
   }
 }
