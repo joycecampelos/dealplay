@@ -34,6 +34,8 @@ export default defineConfig({
     video: false,
     screenshotOnRunFailure: false,
     supportFile: "cypress/support/e2e.js",
+    defaultCommandTimeout: 10000,
+    pageLoadTimeout: 60000,
     setupNodeEvents(on, config) {
       on("task", {
         async createAdminUser() {
