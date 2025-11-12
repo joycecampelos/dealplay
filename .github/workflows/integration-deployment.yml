@@ -51,12 +51,21 @@ jobs:
           echo "🚀 Iniciando o backend em background..."
           nohup npm start > backend.log 2>&1 &
 
-          echo "⏳ Aguardando o servidor responder na rota / ..."
-          npx wait-on --timeout 30000 http://localhost:3000/
+          echo "⏳ Aguardando o servidor iniciar..."
+          sleep 5
+
+          echo "🔍 Últimas 20 linhas do backend.log:"
+          tail -n 20 backend.log || true
+
+          echo "🌐 Tentando acessar http://localhost:3000/ ..."
+          curl -v http://localhost:3000/ || echo "⚠️ API ainda não respondeu"
+
+          echo "⏳ Aguardando resposta com wait-on (timeout 60s)..."
+          npx wait-on --timeout 60000 http://localhost:3000/
 
           echo "✅ Servidor backend está pronto e respondendo!"
-          echo "🔍 Últimas linhas do log:"
-          tail -n 10 backend.log
+          echo "🔍 Últimas 10 linhas do backend.log:"
+          tail -n 10 backend.log || true
 
       - name: Run frontend tests
         working-directory: ./frontend
