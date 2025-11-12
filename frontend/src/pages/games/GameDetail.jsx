@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { getGameById } from "../../services/gameService.js";
-import { getPlayLogsByGame, deletePlayLog } from "../../services/playLogService.js";
+import { getPlayLogsByGame, deletePlayLog } from "../../services/playlogService.js";
 import { formatDate, formatDateTime } from "../../utils/formatters.js";
 import useRequireAdmin from "../../hooks/useRequireAdmin.js";
 import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";

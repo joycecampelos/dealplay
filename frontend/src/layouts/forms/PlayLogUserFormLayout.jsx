@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { toast } from "sonner";
 import { Gamepad2, CheckCircle2, FolderPlus, XCircle, Star } from "lucide-react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-import { createPlayLog, updatePlayLog } from "../../services/playLogService.js";
+import { createPlayLog, updatePlayLog } from "../../services/playlogService.js";
 import { createGame, getGameByIdItad } from "../../services/gameService.js";
 import Modal from "../../components/common/Modal.jsx";
 import FormField from "../../components/forms/FormField.jsx";

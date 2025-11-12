@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { getPlayLogById, updatePlayLog } from "../../services/playLogService.js";
+import { getPlayLogById, updatePlayLog } from "../../services/playlogService.js";
 import useRequireAdmin from "../../hooks/useRequireAdmin.js";
 import PlayLogFormLayout from "../../layouts/forms/PlayLogFormLayout.jsx";
 import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";

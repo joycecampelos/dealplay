@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { getPlayLogs, deletePlayLog } from "../../services/playLogService.js";
+import { getPlayLogs, deletePlayLog } from "../../services/playlogService.js";
 import useRequireAdmin from "../../hooks/useRequireAdmin.js";
 import ListLayout from "../../layouts/ListLayout.jsx";
 import ActionButtons from "../../components/lists/ActionButtons.jsx";

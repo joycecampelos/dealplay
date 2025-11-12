@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { createPlayLog } from "../../services/playLogService.js";
+import { createPlayLog } from "../../services/playlogService.js";
 import useRequireAdmin from "../../hooks/useRequireAdmin.js";
 import PlayLogFormLayout from "../../layouts/forms/PlayLogFormLayout.jsx";
 

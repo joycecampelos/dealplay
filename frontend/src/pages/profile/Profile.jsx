@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Gamepad2, CheckCircle2, FolderPlus, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-import { getPlayLogs } from "../../services/playLogService.js";
+import { getPlayLogs } from "../../services/playlogService.js";
 import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";
 
 export default function Profile() {
