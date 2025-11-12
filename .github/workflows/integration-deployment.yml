@@ -79,28 +79,34 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          TERM: xterm
         run: |
           echo "📦 Instalando dependências do frontend..."
           npm ci
 
           echo "🚀 Iniciando o servidor do Vite (frontend)..."
-          nohup npm run dev > frontend.log 2>&1 &
+          nohup npm run dev -- --port 5173 --host > frontend.log 2>&1 &
 
-          echo "⏳ Aguardando o Vite responder em http://localhost:5173 ..."
-          npx wait-on --timeout 90000 http://localhost:5173
+          echo "⏳ Aguardando o Vite responder em http://localhost:5173/login ..."
+          npx wait-on --timeout 90000 http://localhost:5173/login
+
+          echo "🔍 Verificando se o frontend está servindo HTML..."
+          curl -I http://localhost:5173/login || echo "⚠️ Página /login ainda não respondeu"
 
           echo "✅ Frontend ativo. Rodando testes E2E com Cypress..."
+          npx cypress run --browser electron --headless --config defaultCommandTimeout=15000,pageLoadTimeout=90000
 
-      - name: Run frontend tests
-        working-directory: ./frontend
-        env:
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
-          VITE_URL_CALLBACK_AUTH: ${{ secrets.VITE_URL_CALLBACK_AUTH }}
-          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        run: |
-          npm run test:e2e
+          echo "🔍 Últimas 20 linhas do frontend.log:"
+          tail -n 20 frontend.log || true
+          
+      - name: Upload Cypress Artifacts (screenshots/videos)
+        if: failure() # só envia artefatos se der erro
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: |
+            frontend/cypress/screenshots
+            frontend/cypress/videos
   
   deploy-backend-vercel:
     needs: test
